@@ -226,7 +226,7 @@ body{margin:0}
   .wd-count{justify-content:space-between}
   .wd-count-label{font-size:16px}
 }
-</style></head><body class="iso" data-theme="dark"><main class="iso-page"><figure class="iso-figure"><div class="iso-plate"><div class="iso-plate-corners" aria-hidden="true"><span class="iso-plate-corner" data-corner="fig">Fig 2</span><span class="iso-plate-corner" data-corner="title">What we do for you</span><span class="iso-plate-corner" data-corner="readout" data-readout></span></div><div class="wd" data-row-active="-1">
+</style><link rel="stylesheet" href="../homepage.css"></head><body class="iso" data-theme="dark"><main class="iso-page"><figure class="iso-figure"><div class="iso-plate"><div class="iso-plate-corners" aria-hidden="true"><span class="iso-plate-corner" data-corner="fig">Fig 2</span><span class="iso-plate-corner" data-corner="title">What we do for you</span><span class="iso-plate-corner" data-corner="readout" data-readout></span></div><div class="wd" data-row-active="-1">
 <div class="wd-head" aria-hidden="true"><span class="wd-col wd-col-l">Your team today</span><span class="wd-col wd-col-r">With Superseed</span></div>
 <section class="wd-row" data-row="0" data-state="pending" aria-label="Checking batteries">
   <h3 class="wd-job"><span class="wd-num">1</span>Checking batteries</h3>
@@ -257,7 +257,9 @@ body{margin:0}
   </div>
 </section>
 <div class="wd-count" role="status" aria-live="off"><span class="wd-count-label">Jobs your team still does</span><span class="wd-count-n" data-count>4</span><span class="wd-pips" aria-hidden="true"><i data-pip="0"></i><i data-pip="1"></i><i data-pip="2"></i><i data-pip="3"></i></span></div>
-</div></div><figcaption class="iso-legend"><span class="iso-caption">Superseed takes over every battery job your team does today.</span></figcaption></figure></main><script type="module">const AZIMUTH = 45;
+</div></div><figcaption class="iso-legend"><span class="iso-caption">Superseed takes over every battery job your team does today.</span></figcaption><button type="button" data-playback hidden>Pause animation</button></figure></main><script type="module">
+import { playback } from "../playback.js";
+const AZIMUTH = 45;
 const ELEVATION = 30;
 const SHADES = 4;
 const RADIANS = Math.PI / 180;
@@ -1047,7 +1049,11 @@ function tick(now) {
   render(clock, false);
   frame = visible ? requestAnimationFrame(tick) : 0;
 }
-const run = () => { if (!frame && visible && !still.matches) { last = 0; frame = requestAnimationFrame(tick); } };
+const run = () => { if (!frame && visible && canPlay()) { last = 0; frame = requestAnimationFrame(tick); } };
+const canPlay = playback(wd, still, () => queueMicrotask(run), () => {
+  if (frame) cancelAnimationFrame(frame);
+  frame = 0;
+});
 new IntersectionObserver((e) => { visible = e[e.length - 1].isIntersecting; if (visible) run(); else if (frame) { cancelAnimationFrame(frame); frame = 0; } }, { rootMargin: "120px 0px" }).observe(wd);
 if (still.matches) render(LOOP - FADE - 0.01, true); else render(0, false);
 still.addEventListener("change", () => { if (still.matches) { if (frame) cancelAnimationFrame(frame); frame = 0; render(LOOP - FADE - 0.01, true); } else run(); });

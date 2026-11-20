@@ -1,0 +1,109 @@
+/* Shared type and surface for the figures used on the Superseed homepage. */
+@font-face {
+  font-family: Figtree;
+  src: url('../fonts/figtree-latin.woff2') format('woff2');
+  font-style: normal;
+  font-weight: 400 600;
+  font-display: swap;
+}
+:root {
+  --figure-font: Figtree, sans-serif;
+  --figure-text: #faf3e9;
+  --figure-body-ink: #aaa39b;
+  --figure-caption-ink: #9a938a;
+  --figure-body: 17px;
+  --figure-title: 22px;
+  --figure-caption: 14px;
+  --figure-number: 56px;
+}
+@media (max-width: 844px) {
+  :root { --figure-body: 16px; --figure-title: 20px; --figure-number: 40px; }
+}
+html, body { overflow-x: clip; }
+body.iso { font: 400 var(--figure-body)/1.55 var(--figure-font); color: var(--figure-body-ink); }
+.iso .iso-page { max-width: none; }
+.iso .iso-plate { padding: 0; border: 0; border-radius: 0; box-shadow: none; background: none; }
+.iso .iso-plate-corners, .iso .iso-plate-corner[data-corner] {
+  position: static;
+  text-align: left;
+  white-space: normal;
+  max-width: none;
+}
+.iso .iso-plate-corners { display: contents; }
+.iso .iso-plate-corner[data-corner] { display: none; }
+.iso .iso-legend, .iso .iso-legend .iso-caption, .iso .yl-note, .iso .yl-strip-label,
+.iso .yl-num, .iso .wd-num, .iso .wd-tag, .iso .lg-phase, .iso .lg-years {
+  font: 400 var(--figure-caption)/1.45 var(--figure-font);
+  color: var(--figure-caption-ink);
+  letter-spacing: normal;
+  text-transform: none;
+}
+.iso .yl-cap, .iso .wd-cap, .iso .wd-cell[data-side="R"] .wd-cap, .iso .wd-count-label {
+  font: 400 var(--figure-body)/1.55 var(--figure-font);
+  color: var(--figure-body-ink);
+  text-wrap: pretty;
+}
+.iso .yl-sum, .iso .wd-job, .iso .wd-col {
+  font: 600 var(--figure-title)/1.25 var(--figure-font);
+  color: var(--figure-text);
+  letter-spacing: normal;
+}
+.iso .wd-num { width: auto; height: auto; border: 0; margin: 0 4px 0 0; }
+.iso .wd-count-n { font-size: var(--figure-number); font-weight: 600; font-variant-numeric: tabular-nums; }
+.iso .yl-grid, .iso .wd-head, .iso .wd-pair { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
+.iso .yl-blocks { grid-template-columns: repeat(10, minmax(0, 1fr)); }
+.iso .wd-cell[data-side] { background: none; }
+.iso .iso-stage:focus-visible { outline: 2px solid var(--figure-text); outline-offset: -2px; }
+.iso .pips { display: none; }
+.iso svg text { font-family: var(--figure-font); }
+.iso svg .iso-face-text { letter-spacing: normal; }
+@media (max-width: 560px) {
+  .iso .yl-grid, .iso .wd-pair { grid-template-columns: minmax(0, 1fr); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .iso *, .iso *::before, .iso *::after { animation: none !important; transition: none !important; }
+}
+
+:root {
+  --figure-control-edge: #6e6962;
+  --figure-control-surface: #272320;
+}
+.iso .iso-plate { display: flex; flex-direction: column; }
+.iso .iso-plate-corners { order: 1; display: block; }
+.iso .iso-plate-corner[data-corner="readout"]:not(:empty) {
+  display: flex;
+  align-items: start;
+  justify-content: start;
+  text-align: left;
+  margin-top: 12px;
+  min-height: 0;
+  font: 400 var(--figure-caption)/1.45 var(--figure-font);
+  color: var(--figure-caption-ink);
+  letter-spacing: normal;
+  text-transform: none;
+}
+.iso [data-playback] {
+  margin-top: 16px;
+  min-height: 44px;
+  padding-inline: 12px;
+  border: 1px solid var(--figure-control-edge);
+  border-radius: 12px;
+  background: none;
+  color: var(--figure-text);
+  font: 400 var(--figure-caption)/1.45 var(--figure-font);
+  cursor: pointer;
+}
+.iso [data-playback]:hover { background: var(--figure-control-surface); }
+.iso [data-playback]:focus-visible { outline: 2px solid var(--figure-text); outline-offset: 3px; }
+.iso .steps { grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px 24px; }
+.iso .steps li, .iso .steps b { font: 400 var(--figure-caption)/1.45 var(--figure-font); }
+.iso .steps li { transition: none; }
+@media (max-width: 560px) {
+  .iso .steps { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+.iso .wd-head { display: none; }
+.iso .wd-tag { display: block; padding: 8px 12px 0; }
+.iso .wd-cell [data-pulse] { animation-play-state: inherit; }
+.iso .is-paused, .iso .is-paused .iso-line[data-flow], .iso .is-paused [data-pulse] {
+  animation-play-state: paused;
+}
